@@ -14,7 +14,6 @@
     <script src="./login.js" type="text/javascript"></script>
     <script src="./crearCuenta.js" type="text/javascript"></script>
     <script src="./catalogoAdmin.js" type="text/javascript"></script>
-    <script src="./todo.js" type="text/javascript"></script>
     <script src="./catalogo.js" type="text/javascript"></script>
     <script src="./cuentas.js" type="text/javascript"></script>
     <script src="./PanelPrincipal.js" type="text/javascript"></script>
@@ -27,7 +26,7 @@
           responsive: true,
         });
         $$("catalogoAdminForm").bind($$("tablaCatalogoAdmin"));
-        // $$("cuentasForm").bind($$("tablaCuenta"));
+        $$("cuentasForm").bind($$("tablaCuenta"));
         // $$("catalogoForm").bind($$("tablaFinanzas"));
 
         $$("tablaCatalogoAdmin").attachEvent("onAfterSelect", () => {
@@ -42,11 +41,12 @@
         //   $$("deleteBtnF").show();
         // });
 
-        // $$("tablaCuenta").attachEvent("onAfterSelect", () => {
-        //   $$("saveBtnCta").hide();
-        //   $$("editBtnC").show();
-        //   $$("deleteBtnC").show();
-        // });
+         $$("tablaCuenta").attachEvent("onAfterSelect", () => {
+           $$("saveBtnCta").hide();
+           $$("editBtnC").show();
+           $$("deleteBtnC").show();
+        });
+        
       } else {
         webix.ui({
           id: "principal",
