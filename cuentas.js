@@ -1,4 +1,4 @@
-//const user = sessionStorage.getItem("usuario");
+
 const limpiarCuentas = () => {
   $$("cuentasForm").clear();
   $$("editBtnC").hide();
@@ -7,11 +7,11 @@ const limpiarCuentas = () => {
 };
 
 const deleteC = () => {
-  let pToDelete = $$("cuentasForm").getValues();
+  let accounToDelete = $$("cuentasForm").getValues();
   webix
     .ajax()
-    .del(`http://localhost:3000/usuarios/${pToDelete.id}`, 
-    pToDelete)
+    .del(`http://localhost:3000/usuarios/${accounToDelete.id}`, 
+    accounToDelete)
     .then((res) => {
       $$("tablaCuenta").clearAll();
       $$("tablaCuenta").parse(res.json());
@@ -22,11 +22,11 @@ const deleteC = () => {
 };
 
 const editC = () => {
-  let pToEdit = $$("cuentasForm").getValues();
+  let accounToEdit = $$("cuentasForm").getValues();
 
   webix
     .ajax()
-    .put(`http://localhost:3000/usuarios/${pToEdit.id}`, pToEdit)
+    .put(`http://localhost:3000/usuarios/${accounToEdit.id}`, accounToEdit)
     .then((res) => {
 
       $$("tablaCuenta").clearAll();
@@ -39,14 +39,9 @@ const editC = () => {
 
 const onsubmitCuenta = () => {
   const newCuenta = $$("cuentasForm").getValues();
-  newCuenta.id = 10;
-  /*webix
-    .ajax()
-    .post(`http://localhost:3000/usuarios`, newCuenta)
-    .then(function (content) {
-      $$("tablaCuenta").clearAll();
-      $$("tablaCuenta").parse(content.json());
-    });*/
+  //User id added manually, to be removed
+  newCuenta.id = 24;
+  
     if (/^[a-zA-Z]+$/.test(newCuenta.user)) {
       if (/^[a-zA-Z0-9]+$/.test(newCuenta.password)) {
         webix
@@ -170,3 +165,6 @@ const formCuentas = {
     },
   ],
 };
+
+
+
