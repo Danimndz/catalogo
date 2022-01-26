@@ -143,14 +143,7 @@ const formCuentas = {
           sort: "string",
           select: "row",
         },
-        /*{
-          id: "password",
-          header: "Contraseña",
-          fillspace: true,
-          sort: "string",
-          type:"password",
-          select: "row",
-        },*/
+        
         
       ],
       
@@ -165,6 +158,3 @@ const formCuentas = {
     },
   ],
 };
-
-
-
