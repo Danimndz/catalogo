@@ -1,4 +1,4 @@
-const formFinanzas = {
+const formCatalogoMain = {
   view: "form",
   id: "catalogoForm",
   elements: [
