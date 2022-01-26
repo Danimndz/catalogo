@@ -1,15 +1,17 @@
+
 const limpiarCuentas = () => {
-  $$("cuentasForm").clear;
+  $$("cuentasForm").clear();
   $$("editBtnC").hide();
   $$("saveBtnCta").show();
   $$("deleteBtnC").hide();
 };
 
 const deleteC = () => {
-  let values = $$("cuentasForm").getValues();
+  let accounToDelete = $$("cuentasForm").getValues();
   webix
     .ajax()
-    .del(`http://alumnos01.enlacenet.net:8005/DelCuentas/${user}`, values)
+    .del(`http://localhost:3000/usuarios/${accounToDelete.id}`, 
+    accounToDelete)
     .then((res) => {
       $$("tablaCuenta").clearAll();
       $$("tablaCuenta").parse(res.json());
@@ -20,11 +22,13 @@ const deleteC = () => {
 };
 
 const editC = () => {
-  let values = $$("cuentasForm").getValues();
+  let accounToEdit = $$("cuentasForm").getValues();
+
   webix
     .ajax()
-    .put(`http://alumnos01.enlacenet.net:8005/UpdateCuentas/${user}`, values)
+    .put(`http://localhost:3000/usuarios/${accounToEdit.id}`, accounToEdit)
     .then((res) => {
+
       $$("tablaCuenta").clearAll();
       $$("tablaCuenta").parse(res.json());
       $$("deleteBtnC").hide();
@@ -35,14 +39,35 @@ const editC = () => {
 
 const onsubmitCuenta = () => {
   const newCuenta = $$("cuentasForm").getValues();
-
-  webix
-    .ajax()
-    .post(`http://alumnos01.enlacenet.net:8005/postCuenta/${user}`, newCuenta)
-    .then(function (content) {
-      $$("tablaCuenta").clearAll();
-      $$("tablaCuenta").parse(content.json());
-    });
+  //User id added manually, to be removed
+  newCuenta.id = 24;
+  
+    if (/^[a-zA-Z]+$/.test(newCuenta.user)) {
+      if (/^[a-zA-Z0-9]+$/.test(newCuenta.password)) {
+        webix
+          .ajax()
+          .post("http://localhost:3000/usuarios", newCuenta)
+          .then(function (data) {
+            // when user is created return a boolean value.
+            const obj1= data.json();
+            console.log(obj1);
+            if (obj1.res) {
+              webix.alert("Usuario creado", "alert-warning");
+            } else {
+              webix.alert("Este usuario ya existe", "alert-warning");
+            }
+          });
+      } else {
+        webix.alert(
+          "Contraseña no valida. Use solamente letras y numeros",
+          "alert-warning"
+        );
+      }
+    } else {
+      webix.alert("Usuario no valido. Use solamente letras", "alert-warning");
+    }
+  $$("tablaCuenta").clearAll();
+  $$("tablaCuenta").parse(data.json());
 };
 
 const formCuentas = {
@@ -52,42 +77,23 @@ const formCuentas = {
     {
       rows: [
         {
-          label: "Banco",
-          name: "banco",
-          value: "1",
-          options: [
-            "HSBC",
-            "SANTANDER",
-            "BANAMEX",
-            "SCOTIABANK",
-            "BANORTE",
-            "BANCO AZTECA",
-            "BANCO DEL BAJIO",
-            "INBURSA",
-            "BANCOMER",
-            "OTRO",
-          ],
-          view: "combo",
+          view: "text",
+          label: "Usuario",
+          name: "user",
+          id: "user",
           required: true,
         },
-        {
-          view: "text",
-          label: "No. Cuenta",
-          name: "noCuenta",
-          id: "noCuenta",
-          required: true,
-          validate: function (val) {
-            return !isNaN(val * 1);
-          },
-        },
-        {
-          view: "text",
-          name: "_id",
-          id: "idC",
-          hidden: true,
-        },
+        
 
         {
+          view: "text",
+          label: "Password",
+          name: "password",
+          id: "password",
+          type:"password",
+          required: true,
+        },
+       {
           view: "button",
           css: "webix_primary",
           label: "Save",
@@ -124,25 +130,30 @@ const formCuentas = {
       ],
     },
     {
+     
+      view: "datatable",
+      select:"row",
+      id: "tablaCuenta",
+      url: "http://localhost:3000/usuarios",
       columns: [
         {
-          id: "banco",
-          header: "Banco",
+          id: "user",
+          header: "Usuarios",
           fillspace: true,
           sort: "string",
           select: "row",
         },
-        {
-          id: "noCuenta",
-          header: "Numero de cuenta",
+        /*{
+          id: "password",
+          header: "Contraseña",
           fillspace: true,
           sort: "string",
-        },
+          type:"password",
+          select: "row",
+        },*/
+        
       ],
-      view: "datatable",
-      id: "tablaCuenta",
-      url: `http://alumnos01.enlacenet.net:8005/tablaCuentas/${user}`,
-      select: "row",
+      
     },
     {
       view: "button",
@@ -154,3 +165,6 @@ const formCuentas = {
     },
   ],
 };
+
+
+
