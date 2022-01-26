@@ -7,15 +7,19 @@ const limpiarCrearCUenta = () => {
   $$("crearCuentaForm").clear();
 };
 const crearUsuario = () => {
-  let forma = $$("crearCuentaForm").getValues();
-  if (/^[a-zA-Z]+$/.test(forma.user)) {
-    if (/^[a-zA-Z0-9]+$/.test(forma.password)) {
+  let newUser = $$("crearCuentaForm").getValues();
+  //User id added manually, to be removed
+  newUser.id = 4;
+  if (/^[a-zA-Z]+$/.test(newUser.user)) {
+    if (/^[a-zA-Z0-9]+$/.test(newUser.password)) {
       webix
         .ajax()
-        .post("http://alumnos01.enlacenet.net:8005/crearUsuario", forma)
+        .post("http://localhost:3000/usuarios", newUser)
         .then(function (data) {
+          // when user is created return a boolean value.
           const obj = data.json();
-          if (obj.res_) {
+          console.log(obj);
+          if (obj.res) {
             webix.alert("Usuario creado", "alert-warning");
           } else {
             webix.alert("Este usuario ya existe", "alert-warning");

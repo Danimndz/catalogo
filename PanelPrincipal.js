@@ -1,14 +1,19 @@
 const funSalir = () => {
   sessionStorage.removeItem("usuario");
+  sessionStorage.removeItem("idUsuario");
+
   location.reload();
 };
 
 const borrarUsuario = () => {
+  const idUsuario = sessionStorage.getItem("idUsuario");
   webix
     .ajax()
-    .del(`http://alumnos01.enlacenet.net:8005/borrarUsuario/${user}`)
+    .del(`http://localhost:3000/usuarios/${idUsuario}`)
     .then(() => {
       window.sessionStorage.removeItem("usuario");
+      window.sessionStorage.removeItem("idUsuario");
+
       window.location.reload();
     });
 };

@@ -18,6 +18,7 @@ const logIn = () => {
       if (user.length > 0) {
         if (user[0].password === forma.password) {
           sessionStorage.setItem("usuario", user[0].user);
+          sessionStorage.setItem("idUsuario", user[0].id);
           clearNreloadLogin("loginForm");
         } else {
           webix.alert(

@@ -13,9 +13,9 @@
   <body>
     <script src="./login.js" type="text/javascript"></script>
     <script src="./crearCuenta.js" type="text/javascript"></script>
-    <script src="./catalogo.js" type="text/javascript"></script>
+    <script src="./catalogoAdmin.js" type="text/javascript"></script>
     <script src="./todo.js" type="text/javascript"></script>
-    <script src="./finanzas.js" type="text/javascript"></script>
+    <script src="./catalogo.js" type="text/javascript"></script>
     <script src="./cuentas.js" type="text/javascript"></script>
     <script src="./PanelPrincipal.js" type="text/javascript"></script>
     <script>
@@ -26,27 +26,27 @@
           rows: [panelPrincipal],
           responsive: true,
         });
-        $$("finanzasForm").bind($$("tablaFinanzas"));
-        $$("catalogoForm").bind($$("tablaCatalogoAdmin"));
-        $$("cuentasForm").bind($$("tablaCuenta"));
+        $$("catalogoAdminForm").bind($$("tablaCatalogoAdmin"));
+        // $$("cuentasForm").bind($$("tablaCuenta"));
+        // $$("catalogoForm").bind($$("tablaFinanzas"));
 
         $$("tablaCatalogoAdmin").attachEvent("onAfterSelect", () => {
           $$("saveBtn").hide();
-          $$("borrarPassBtn").show();
-          $$("modificarBtnPass").show();
+          $$("borrarProductoBtn").show();
+          $$("modificarProducto").show();
         });
 
-        $$("tablaFinanzas").attachEvent("onAfterSelect", () => {
-          $$("saveBtnF").hide();
-          $$("editBtnF").show();
-          $$("deleteBtnF").show();
-        });
+        // $$("tablaFinanzas").attachEvent("onAfterSelect", () => {
+        //   $$("saveBtnF").hide();
+        //   $$("editBtnF").show();
+        //   $$("deleteBtnF").show();
+        // });
 
-        $$("tablaCuenta").attachEvent("onAfterSelect", () => {
-          $$("saveBtnCta").hide();
-          $$("editBtnC").show();
-          $$("deleteBtnC").show();
-        });
+        // $$("tablaCuenta").attachEvent("onAfterSelect", () => {
+        //   $$("saveBtnCta").hide();
+        //   $$("editBtnC").show();
+        //   $$("deleteBtnC").show();
+        // });
       } else {
         webix.ui({
           id: "principal",
