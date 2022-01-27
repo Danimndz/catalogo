@@ -8,27 +8,19 @@ const limpiarLogin = () => {
 };
 const logIn = () => {
   let forma = $$("loginForm").getValues();
-  console.log(forma);
   webix
     .ajax()
-    .get("http://localhost:3000/usuarios")
+    .post("http://localhost:3000/login", forma)
     .then(function (data) {
       const obj = data.json();
-      const user = obj.filter((data) => data.user === forma.user);
-      if (user.length > 0) {
-        if (user[0].password === forma.password) {
-          sessionStorage.setItem("usuario", user[0].user);
-          sessionStorage.setItem("idUsuario", user[0].id);
-          clearNreloadLogin("loginForm");
-        } else {
-          webix.alert(
-            "usuario o contraseña incorrectos, intente nuevamente",
-            "alert-warning"
-          );
-        }
-      } else {
-        webix.alert("usuario no existe", "alert-warning");
-      }
+      sessionStorage.setItem("auth", obj);
+      clearNreloadLogin("loginForm");
+    })
+    .catch(() => {
+      webix.alert(
+        "usuario o contraseña incorrectos, intente nuevamente",
+        "alert-warning"
+      );
     });
 };
 
@@ -46,7 +38,7 @@ var loginForm = {
               {
                 view: "text",
                 label: "Usuario",
-                name: "user",
+                name: "name",
                 required: true,
               },
               {

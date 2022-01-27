@@ -1,4 +1,3 @@
-
 const limpiarCuentas = () => {
   $$("cuentasForm").clear();
   $$("editBtnC").hide();
@@ -10,8 +9,8 @@ const deleteC = () => {
   let accounToDelete = $$("cuentasForm").getValues();
   webix
     .ajax()
-    .del(`http://localhost:3000/usuarios/${accounToDelete.id}`, 
-    accounToDelete)
+    .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
+    .del(`http://localhost:3000/usuarios/${accounToDelete.id}`, accounToDelete)
     .then((res) => {
       $$("tablaCuenta").clearAll();
       $$("tablaCuenta").parse(res.json());
@@ -26,9 +25,9 @@ const editC = () => {
 
   webix
     .ajax()
+    .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
     .put(`http://localhost:3000/usuarios/${accounToEdit.id}`, accounToEdit)
     .then((res) => {
-
       $$("tablaCuenta").clearAll();
       $$("tablaCuenta").parse(res.json());
       $$("deleteBtnC").hide();
@@ -39,35 +38,32 @@ const editC = () => {
 
 const onsubmitCuenta = () => {
   const newCuenta = $$("cuentasForm").getValues();
-  //User id added manually, to be removed
-  newCuenta.id = 24;
-  
-    if (/^[a-zA-Z]+$/.test(newCuenta.user)) {
-      if (/^[a-zA-Z0-9]+$/.test(newCuenta.password)) {
-        webix
-          .ajax()
-          .post("http://localhost:3000/usuarios", newCuenta)
-          .then(function (data) {
-            // when user is created return a boolean value.
-            const obj1= data.json();
-            console.log(obj1);
-            if (obj1.res) {
-              webix.alert("Usuario creado", "alert-warning");
-            } else {
-              webix.alert("Este usuario ya existe", "alert-warning");
-            }
-          });
-      } else {
-        webix.alert(
-          "Contraseña no valida. Use solamente letras y numeros",
-          "alert-warning"
-        );
-      }
+
+  if (/^[a-zA-Z]+$/.test(newCuenta.user)) {
+    if (/^[a-zA-Z0-9]+$/.test(newCuenta.password)) {
+      webix
+        .ajax()
+        .headers({
+          Authorization: `Bearer ${sessionStorage.getItem("auth")}`,
+        })
+        .post("http://localhost:3000/usuarios", newCuenta)
+        .then((content) => {
+          webix.alert("Usuario creado", "alert-warning");
+          $$("tablaCuenta").clearAll();
+          $$("tablaCuenta").parse(content.json());
+        })
+        .catch(() => {
+          webix.alert("Este usuario ya existe", "alert-warning");
+        });
     } else {
-      webix.alert("Usuario no valido. Use solamente letras", "alert-warning");
+      webix.alert(
+        "Contraseña no valida. Use solamente letras y numeros",
+        "alert-warning"
+      );
     }
-  $$("tablaCuenta").clearAll();
-  $$("tablaCuenta").parse(data.json());
+  } else {
+    webix.alert("Usuario no valido. Use solamente letras", "alert-warning");
+  }
 };
 
 const formCuentas = {
@@ -79,21 +75,19 @@ const formCuentas = {
         {
           view: "text",
           label: "Usuario",
-          name: "user",
+          name: "name",
           id: "user",
           required: true,
         },
-        
-
         {
           view: "text",
           label: "Password",
           name: "password",
           id: "password",
-          type:"password",
+          type: "password",
           required: true,
         },
-       {
+        {
           view: "button",
           css: "webix_primary",
           label: "Save",
@@ -130,23 +124,19 @@ const formCuentas = {
       ],
     },
     {
-     
       view: "datatable",
-      select:"row",
+      select: "row",
       id: "tablaCuenta",
       url: "http://localhost:3000/usuarios",
       columns: [
         {
-          id: "user",
+          id: "name",
           header: "Usuarios",
           fillspace: true,
           sort: "string",
           select: "row",
         },
-        
-        
       ],
-      
     },
     {
       view: "button",

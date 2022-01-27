@@ -1,18 +1,16 @@
 const funSalir = () => {
-  sessionStorage.removeItem("usuario");
-  sessionStorage.removeItem("idUsuario");
+  sessionStorage.removeItem("auth");
 
   location.reload();
 };
 
 const borrarUsuario = () => {
-  const idUsuario = sessionStorage.getItem("idUsuario");
   webix
     .ajax()
-    .del(`http://localhost:3000/usuarios/${idUsuario}`)
+    .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
+    .del(`http://localhost:3000/usuarios`)
     .then(() => {
-      window.sessionStorage.removeItem("usuario");
-      window.sessionStorage.removeItem("idUsuario");
+      window.sessionStorage.removeItem("auth");
 
       window.location.reload();
     });

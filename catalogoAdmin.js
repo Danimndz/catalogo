@@ -1,4 +1,4 @@
-const user = sessionStorage.getItem("usuario");
+// const user = sessionStorage.getItem("usuario");
 const limpiarCatalogo = () => {
   $$("catalogoAdminForm").clear();
   $$("modificarProducto").hide();
@@ -10,6 +10,7 @@ const borrarProducto = () => {
   let productToDelete = $$("catalogoAdminForm").getValues();
   webix
     .ajax()
+    .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
     .del(
       `http://localhost:3000/productos/${productToDelete.id}`,
       productToDelete
@@ -32,6 +33,7 @@ const modificarProducto = () => {
   let productToEdit = $$("catalogoAdminForm").getValues();
   webix
     .ajax()
+    .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
     .put(`http://localhost:3000/productos/${productToEdit.id}`, productToEdit)
     //On api when PUT method is called it should return an array of all elements
     .then((res) => {
@@ -54,6 +56,7 @@ const onSubmitProducto = () => {
 
   webix
     .ajax()
+    .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
     .post("http://localhost:3000/productos", newProduct)
     //On api when POST method is called it should return an array of all elements
     .then((content) => {
