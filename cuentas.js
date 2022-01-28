@@ -108,14 +108,6 @@ const formCuentas = {
         },
         {
           view: "button",
-          css: "webix_danger",
-          label: "Delete",
-          id: "deleteBtnC",
-          click: deleteC,
-          hidden: true,
-        },
-        {
-          view: "button",
           css: "webix_alert",
           label: "cancel",
           id: "clearBtnCta",

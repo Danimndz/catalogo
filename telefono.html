@@ -39,6 +39,11 @@
           $$("editBtnC").show();
           $$("deleteBtnC").show();
         });
+        $$("tablaCategorias").attachEvent("onAfterSelect", () => {
+          $$("saveBtnCategoria").hide();
+          $$("modificarCategoria").show();
+          $$("borrarCategoriaBtn").show();
+        });
       } else {
         webix.ui({
           id: "principal",

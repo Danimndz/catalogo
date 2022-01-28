@@ -45,6 +45,11 @@ const panelPrincipal = {
       body: { rows: [formCuentas] },
     },
     {
+      header: "Categorias",
+      id: "panelCategorias",
+      body: { rows: [formCategoria] },
+    },
+    {
       id: "panelSalir",
       header: "Salir",
       body: salirView,
