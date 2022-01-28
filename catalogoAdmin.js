@@ -11,10 +11,7 @@ const borrarProducto = () => {
   webix
     .ajax()
     .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
-    .del(
-      `http://localhost:3000/productos/${productToDelete.id}`,
-      productToDelete
-    )
+    .del(`http://localhost:3000/productos/${productToDelete.id}`)
     //On api when DELETE method is called it should return an array of all elements
     .then((res) => {
       $$("tablaCatalogoAdmin").clearAll();
@@ -51,9 +48,6 @@ const onSubmitProducto = () => {
   and return the category value to be displayed
   */
   const newProduct = $$("catalogoAdminForm").getValues();
-  //product id added manually; to be removed
-  newProduct.id = 10;
-
   webix
     .ajax()
     .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
@@ -100,7 +94,6 @@ const formCatalogo = {
           id: "idP",
           hidden: true,
         },
-
         {
           view: "button",
           css: "webix_primary",

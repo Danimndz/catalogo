@@ -11,10 +11,7 @@ const borrarCategoria = () => {
   webix
     .ajax()
     .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
-    .del(
-      `http://localhost:3000/productos/${productToDelete.id}`,
-      productToDelete
-    )
+    .del(`http://localhost:3000/categorias/${productToDelete.id}`)
     //On api when DELETE method is called it should return an array of all elements
     .then((res) => {
       $$("tablaCategorias").clearAll();
@@ -34,7 +31,7 @@ const modificarCategoria = () => {
   webix
     .ajax()
     .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
-    .put(`http://localhost:3000/productos/${productToEdit.id}`, productToEdit)
+    .put(`http://localhost:3000/categorias/${productToEdit.id}`, productToEdit)
     //On api when PUT method is called it should return an array of all elements
     .then((res) => {
       $$("tablaCategorias").clearAll();
@@ -51,13 +48,11 @@ const onSubmitCategoria = () => {
     and return the category value to be displayed
     */
   const newProduct = $$("categoriaForm").getValues();
-  //product id added manually; to be removed
-  newProduct.id = 10;
 
   webix
     .ajax()
     .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
-    .post("http://localhost:3000/productos", newProduct)
+    .post("http://localhost:3000/categorias", newProduct)
     //On api when POST method is called it should return an array of all elements
     .then((content) => {
       $$("tablaCategorias").clearAll();
@@ -74,7 +69,7 @@ const formCategoria = {
         {
           view: "text",
           label: "Categoria",
-          name: "categoria",
+          name: "value",
           id: "categoria",
           required: true,
         },
@@ -82,7 +77,7 @@ const formCategoria = {
         {
           view: "text",
           name: "id",
-          id: "idP",
+          id: "idC",
           hidden: true,
         },
 
@@ -109,7 +104,7 @@ const formCategoria = {
           view: "button",
           css: "webix_alert",
           label: "cancel",
-          id: "cancelBtnPass",
+          id: "cancelBtnC",
           click: limpiarCategorias,
         },
       ],
@@ -121,7 +116,7 @@ const formCategoria = {
       select: "row",
       columns: [
         {
-          id: "categoria",
+          id: "value",
           header: "Categoria",
           fillspace: true,
           sort: "string",

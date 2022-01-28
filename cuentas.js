@@ -10,7 +10,7 @@ const deleteC = () => {
   webix
     .ajax()
     .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
-    .del(`http://localhost:3000/usuarios/${accounToDelete.id}`, accounToDelete)
+    .del(`http://localhost:3000/usuarios/${accounToDelete.id}`)
     .then((res) => {
       $$("tablaCuenta").clearAll();
       $$("tablaCuenta").parse(res.json());
