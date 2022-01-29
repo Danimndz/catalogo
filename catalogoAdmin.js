@@ -28,6 +28,7 @@ const modificarProducto = () => {
   and return the category value to be displayed
   */
   let productToEdit = $$("catalogoAdminForm").getValues();
+  productToEdit.id_categoria = productToEdit.categoria;
   webix
     .ajax()
     .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
@@ -47,7 +48,8 @@ const onSubmitProducto = () => {
   TODO: when a new product is inserted find the category by id
   and return the category value to be displayed
   */
-  const newProduct = $$("catalogoAdminForm").getValues();
+  let newProduct = $$("catalogoAdminForm").getValues();
+  newProduct.id_categoria = newProduct.categoria;
   webix
     .ajax()
     .headers({ Authorization: `Bearer ${sessionStorage.getItem("auth")}` })
